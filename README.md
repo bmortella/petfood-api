@@ -1,7 +1,7 @@
 # petfood-api
 Este repositório contém a API do aplicativo petFood para o Laboratório de Engenharia de Software.
 
-# Instalar dependencias  
+# Instalar dependências  
 ```npm install```  
   
 # Inicializar servidor  
