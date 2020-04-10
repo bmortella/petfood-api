@@ -6,7 +6,7 @@
   "scripts": {
     "dev": "cross-env NODE_ENV=development nodemon app.js",
     "start": "cross-env NODE_ENV=production node app.js",
-    "test": "mocha",
+    "test": "mocha --exit",
     "lint": "eslint --fix --config .eslintrc.json \"**/*.js\""
   },
   "author": "",
