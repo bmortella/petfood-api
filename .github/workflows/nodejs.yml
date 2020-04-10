@@ -30,4 +30,5 @@ jobs:
       env:
         CI: true
         JWT_SECRET: ${{ secrets.JWT_SECRET }},
-        MONGO_URI: ${{ secrets.MONGO_URI }}
+        MONGO_URI: ${{ secrets.MONGO_URI }},
+        PORT: 7000
