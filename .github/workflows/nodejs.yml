@@ -1,5 +1,5 @@
 # This workflow will do a clean install of node dependencies, build the source code and run tests across different versions of node
-# For more information see: https://help.github.com/actions/language-and-framework-guides/using-nodejs-with-github-actions 
+# For more information see: https://help.github.com/actions/language-and-framework-guides/using-nodejs-with-github-actions
 
 name: Node.js CI
 
@@ -24,11 +24,10 @@ jobs:
       uses: actions/setup-node@v1
       with:
         node-version: ${{ matrix.node-version }}
-      run: |
-        npm ci
-        npm run build --if-present
-        npm run report
-        sed -i 's+/home/runner/work/jobreporter/jobreporter+/github/workspace+g' coverage/lcov.info
+    - run: npm ci
+    - run: npm run build --if-present
+    - run: npm run report
+    - run: npm test
       env:
         CI: true
         JWT_SECRET: ${{ secrets.JWT_SECRET }},
