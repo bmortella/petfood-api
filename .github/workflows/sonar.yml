@@ -1,7 +1,7 @@
 # This workflow will do a clean install of node dependencies, build the source code and run tests across different versions of node
 # For more information see: https://help.github.com/actions/language-and-framework-guides/using-nodejs-with-github-actions
 
-name: Testes
+name: Quality Gate
 
 on:
   push:
@@ -20,15 +20,19 @@ jobs:
 
     steps:
     - uses: actions/checkout@v2
-    - name: npm test
+    - name: run sonar
       uses: actions/setup-node@v1
       with:
         node-version: ${{ matrix.node-version }}
     - run: npm ci
-    - run: npm run build --if-present
-    - run: npm test
+    - run: npm run report
       env:
         CI: true
         JWT_SECRET: ${{ secrets.JWT_SECRET }},
         MONGO_URI: ${{ secrets.MONGO_URI }},
         PORT: 7000
+    - name: Run sonar
+      run: npm run sonar
+      env:
+        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
