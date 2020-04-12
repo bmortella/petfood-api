@@ -3,7 +3,7 @@
 const mongoose = require('mongoose');
 const bcrypt = require('bcrypt');
 
-const ClientSchema = new mongoose.Schema(
+const CustomerSchema = new mongoose.Schema(
   {
     tipo: {
       type: String,
@@ -66,7 +66,7 @@ const ClientSchema = new mongoose.Schema(
   },
 );
 
-ClientSchema.pre('save', function (next) {
+CustomerSchema.pre('save', function (next) {
   if (this.isModified('senha')) {
     const salt = bcrypt.genSaltSync(10);
     const passHash = bcrypt.hashSync(this.senha, salt);
@@ -75,8 +75,8 @@ ClientSchema.pre('save', function (next) {
   return next();
 });
 
-ClientSchema.methods.passwordMatch = function (password) {
+CustomerSchema.methods.passwordMatch = function (password) {
   return bcrypt.compareSync(password, this.senha);
 };
 
-module.exports = mongoose.model('Client', ClientSchema);
+module.exports = mongoose.model('Customer', CustomerSchema);

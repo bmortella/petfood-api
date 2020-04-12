@@ -1,10 +1,10 @@
 const { matchedData } = require('express-validator');
 const jwt = require('jsonwebtoken');
-const Client = require('../models/client');
+const Customer = require('../models/customer');
 const { handleError, buildErrObject } = require('./utils');
 
 const registerClient = async (req) => new Promise((resolve, reject) => {
-  const client = new Client({
+  const customer = new Customer({
     email: req.email,
     senha: req.senha,
     nome: req.nome,
@@ -19,7 +19,7 @@ const registerClient = async (req) => new Promise((resolve, reject) => {
     cep: req.cep,
     dataNascimento: req.dataNascimento,
   });
-  client.save((err, item) => {
+  customer.save((err, item) => {
     if (err) {
       reject(buildErrObject(422, err));
     }
@@ -27,15 +27,15 @@ const registerClient = async (req) => new Promise((resolve, reject) => {
   });
 });
 
-const findClientByEmail = async (email) => new Promise((resolve, reject) => {
-  Client.findOne({ email }, (err, client) => {
+const findCustomerByEmail = async (email) => new Promise((resolve, reject) => {
+  Customer.findOne({ email }, (err, customer) => {
     if (err) {
       reject(buildErrObject(422, err));
     }
-    if (!client) {
+    if (!customer) {
       reject(buildErrObject(404, 'CLIENT_NOT_FOUND'));
     } else {
-      resolve(client);
+      resolve(customer);
     }
   });
 });
@@ -43,12 +43,12 @@ const findClientByEmail = async (email) => new Promise((resolve, reject) => {
 exports.register = async (req, res) => {
   try {
     req = matchedData(req);
-    const client = await registerClient(req);
+    const customer = await registerClient(req);
     const resData = {
-      id: client._id,
+      id: customer._id,
       token: jwt.sign({
         data: {
-          _id: client._id,
+          _id: customer._id,
         },
       },
       process.env.JWT_SECRET),
@@ -62,16 +62,16 @@ exports.register = async (req, res) => {
 exports.login = async (req, res) => {
   try {
     req = matchedData(req);
-    const client = await findClientByEmail(req.email);
-    if (client.passwordMatch(req.senha)) {
+    const customer = await findCustomerByEmail(req.email);
+    if (customer.passwordMatch(req.senha)) {
       res.status(200).json({
         token: jwt.sign({
           data: {
-            _id: client._id,
+            _id: customer._id,
           },
         },
         process.env.JWT_SECRET),
-        clientData: client,
+        clientData: customer,
       });
     } else {
       handleError(res, buildErrObject(422, 'WRONG_PASSWORD'));
