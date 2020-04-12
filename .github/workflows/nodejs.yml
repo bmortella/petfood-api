@@ -26,7 +26,7 @@ jobs:
         node-version: ${{ matrix.node-version }}
     - run: npm ci
     - run: npm run build --if-present
-    - run: npm run report && sed -i 's+/home/runner/work/jobreporter/jobreporter+/github/workspace+g' test/unit/coverage/lcov.info
+    - run: npm run report && sed -i 's+/home/runner/work/jobreporter/jobreporter+/github/workspace+g' coverage/lcov.info
       env:
         CI: true
         JWT_SECRET: ${{ secrets.JWT_SECRET }},
