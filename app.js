@@ -24,7 +24,7 @@ app.use(
 );
 
 // Define rotas automaticamente pelo index.js
-app.use(require('./routes'));
+app.use(require('./app/routes'));
 
 app.listen(process.env.PORT || 3000);
 
