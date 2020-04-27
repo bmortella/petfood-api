@@ -11,6 +11,7 @@ const should = chai.should();
 chai.use(chaiHttp);
 
 let createdClient;
+let token;
 
 describe('## AUTH', () => {
   describe('/POST register', () => {
@@ -83,6 +84,7 @@ describe('## AUTH', () => {
           res.should.have.status(200);
           res.body.should.be.an('object');
           res.body.should.include.keys('token', 'clientData');
+          token = res.body.token;
           done();
         });
     });
@@ -99,6 +101,31 @@ describe('## AUTH', () => {
           res.should.have.status(422);
           res.body.should.be.an('object');
           res.body.should.include.keys('errors');
+          done();
+        });
+    });
+  });
+});
+
+describe('## STORE', () => {
+  describe('/POST /', () => {
+    it('deve abrir loja', (done) => {
+      const dados = {
+        nomeLoja: faker.company.companyName(),
+        cnpj: faker.random.number(),
+        telComercial: faker.phone.phoneNumber(),
+        cep: faker.address.zipCode(),
+        endereco: faker.address.streetAddress(),
+        numero: faker.random.number(),
+        complemento: '',
+      };
+      chai
+        .request(server)
+        .post('/store')
+        .set('Authorization', `Bearer ${token}`)
+        .send(dados)
+        .end((err, res) => {
+          res.should.have.status(200);
           done();
         });
     });

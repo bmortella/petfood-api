@@ -4,6 +4,7 @@ const bodyParser = require('body-parser');
 
 const app = express();
 const mongoose = require('mongoose');
+const passport = require('passport');
 const morgan = require('morgan');
 
 if (process.env.NODE_ENV === 'development') {
@@ -22,6 +23,8 @@ app.use(
     extended: true,
   }),
 );
+
+app.use(passport.initialize());
 
 // Define rotas automaticamente pelo index.js
 app.use(require('./app/routes'));
