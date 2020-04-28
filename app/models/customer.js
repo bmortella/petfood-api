@@ -10,6 +10,10 @@ const CustomerSchema = new mongoose.Schema(
       enum: ['cliente', 'loja'],
       default: 'cliente',
     },
+    loja: {
+      type: mongoose.Types.ObjectId,
+      required: false,
+    },
     email: {
       type: String,
       unique: true,

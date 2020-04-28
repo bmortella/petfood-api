@@ -109,11 +109,27 @@ describe('## AUTH', () => {
 
 describe('## STORE', () => {
   describe('/POST /', () => {
+    it('nao deve abrir loja (dados faltando)', (done) => {
+      const dados = {
+        nomeLoja: faker.company.companyName(),
+        cnpj: faker.random.number(),
+        telComercial: faker.random.number(),
+      };
+      chai
+        .request(server)
+        .post('/store')
+        .set('Authorization', `Bearer ${token}`)
+        .send(dados)
+        .end((err, res) => {
+          res.should.have.status(422);
+          done();
+        });
+    });
     it('deve abrir loja', (done) => {
       const dados = {
         nomeLoja: faker.company.companyName(),
         cnpj: faker.random.number(),
-        telComercial: faker.phone.phoneNumber(),
+        telComercial: faker.random.number(),
         cep: faker.address.zipCode(),
         endereco: faker.address.streetAddress(),
         numero: faker.random.number(),
@@ -125,7 +141,27 @@ describe('## STORE', () => {
         .set('Authorization', `Bearer ${token}`)
         .send(dados)
         .end((err, res) => {
-          res.should.have.status(200);
+          res.should.have.status(201);
+          done();
+        });
+    });
+    it('nao deve abrir loja (cliente ja eh loja)', (done) => {
+      const dados = {
+        nomeLoja: faker.company.companyName(),
+        cnpj: faker.random.number(),
+        telComercial: faker.random.number(),
+        cep: faker.address.zipCode(),
+        endereco: faker.address.streetAddress(),
+        numero: faker.random.number(),
+        complemento: '',
+      };
+      chai
+        .request(server)
+        .post('/store')
+        .set('Authorization', `Bearer ${token}`)
+        .send(dados)
+        .end((err, res) => {
+          res.should.have.status(422);
           done();
         });
     });
