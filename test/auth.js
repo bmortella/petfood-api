@@ -13,7 +13,7 @@ chai.use(chaiHttp);
 let createdClient;
 let token;
 let idLoja;
-let produtoId;
+let produto;
 
 describe('## AUTH', () => {
   describe('/POST register', () => {
@@ -186,7 +186,7 @@ describe('## STORE', () => {
         .send(dados)
         .end((err, res) => {
           res.should.have.status(201);
-          produtoId = res.body._id;
+          produto = res.body;
           done();
         });
     });
@@ -208,11 +208,26 @@ describe('## STORE', () => {
         });
     });
   });
+  describe('/PATCH product', () => {
+    it('deve editar produto', (done) => {
+      produto.nome = faker.commerce.productName();
+      produto.preco = faker.random.number();
+      chai
+        .request(server)
+        .patch(`/store/product`)
+        .set('Authorization', `Bearer ${token}`)
+        .send(produto)
+        .end((err, res) => {
+          res.should.have.status(200);
+          done();
+        })
+    })
+  })
   describe('/DELETE product', () => {
     it('deve remover produto', (done) => {
       chai
         .request(server)
-        .delete(`/store/product/${produtoId}`)
+        .delete(`/store/product/${produto._id}`)
         .set('Authorization', `Bearer ${token}`)
         .end((err, res) => {
           res.should.have.status(200);

@@ -39,4 +39,13 @@ router.delete(
   controller.deleteProduct,
 );
 
+// Editar produto
+router.patch(
+  '/product',
+  requireAuth,
+  trimRequest.all,
+  validate.registerProduct,
+  controller.updateProduct,
+);
+
 module.exports = router;

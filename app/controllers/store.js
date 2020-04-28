@@ -25,6 +25,13 @@ const delProduct = async (id) => new Promise((resolve, reject) => {
   })
 })
 
+const updateProduct = async (data) => new Promise((resolve, reject) => {
+  Product.updateOne(data, (err, item) => {
+    if (err) return reject(buildErrObject(500, err));
+    return resolve(item);
+  })
+})
+
 exports.registerStore = async (req, res) => {
   try {
     const data = matchedData(req);
@@ -57,6 +64,16 @@ exports.deleteProduct = async (req, res) => {
     const data = matchedData(req);
     await delProduct(data.id);
     res.sendStatus(200);
+  } catch (err) {
+    handleError(err);
+  }
+}
+
+exports.updateProduct = async (req, res) => {
+  try {
+    const data = matchedData(req);
+    const item = await updateProduct(data);
+    res.status(200).json(item);
   } catch (err) {
     handleError(err);
   }
