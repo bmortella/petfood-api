@@ -21,6 +21,15 @@ router.post(
   controller.registerStore,
 );
 
+// Editar loja
+router.patch(
+  '/',
+  requireAuth,
+  trimRequest.all,
+  validate.registerStore,
+  controller.updateStore,
+);
+
 // Registrar produto
 router.post(
   '/product',

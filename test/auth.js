@@ -14,6 +14,7 @@ let createdClient;
 let token;
 let idLoja;
 let produto;
+let dadosLoja;
 
 describe('## AUTH', () => {
   describe('/POST register', () => {
@@ -145,6 +146,19 @@ describe('## STORE', () => {
         .end((err, res) => {
           res.should.have.status(201);
           idLoja = res.body._id;
+          dadosLoja = res.body;
+          done();
+        });
+    });
+    it('deve editar loja', (done) => {
+      dadosLoja.nomeLoja = faker.company.companyName()
+      chai
+        .request(server)
+        .patch('/store')
+        .set('Authorization', `Bearer ${token}`)
+        .send(dadosLoja)
+        .end((err, res) => {
+          res.should.have.status(200);
           done();
         });
     });

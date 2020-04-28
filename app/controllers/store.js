@@ -11,6 +11,13 @@ const createStore = async (costumer, data) => new Promise((resolve, reject) => {
   });
 });
 
+const updateStore = async (data) => new Promise((resolve, reject) => {
+  Store.updateOne({_id: data._id}, data, (err, item) => {
+    if (err) return reject(buildErrObject(500, err));
+    return resolve(item);
+  })
+});
+
 const addProduct = async (data) => new Promise((resolve, reject) => {
   Product.create(data, (err, item) => {
     if (err) return reject(buildErrObject(500, err));
@@ -26,7 +33,7 @@ const delProduct = async (id) => new Promise((resolve, reject) => {
 })
 
 const updateProduct = async (data) => new Promise((resolve, reject) => {
-  Product.updateOne(data, (err, item) => {
+  Product.updateOne({_id: data._id}, data, (err, item) => {
     if (err) return reject(buildErrObject(500, err));
     return resolve(item);
   })
@@ -55,6 +62,17 @@ exports.registerStore = async (req, res) => {
     handleError(res, buildErrObject(422, err));
   }
 };
+
+exports.updateStore = async (req, res) => {
+  try {
+    const data = matchedData(req);
+    const item = await updateStore(data);
+    res.status(200).json(item);
+  } catch (err) {
+    console.log(err)
+    handleError(err);
+  }
+}
 
 exports.registerProduct = async (req, res) => {
   try {
