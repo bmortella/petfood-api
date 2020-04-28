@@ -32,6 +32,13 @@ const updateProduct = async (data) => new Promise((resolve, reject) => {
   })
 })
 
+const listProducts = async (id) => new Promise((resolve, reject) => {
+  Product.find({lojaId: id}, (err, items) => {
+    if (err) return reject(buildErrObject(500, err));
+    return resolve(items);
+  })
+})
+
 exports.registerStore = async (req, res) => {
   try {
     const data = matchedData(req);
@@ -74,6 +81,16 @@ exports.updateProduct = async (req, res) => {
     const data = matchedData(req);
     const item = await updateProduct(data);
     res.status(200).json(item);
+  } catch (err) {
+    handleError(err);
+  }
+}
+
+exports.listProducts = async (req, res) => {
+  try {
+    const data = matchedData(req);
+    const items = await listProducts(data.id);
+    res.status(200).json(items);
   } catch (err) {
     handleError(err);
   }

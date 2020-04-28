@@ -223,6 +223,18 @@ describe('## STORE', () => {
         })
     })
   })
+  describe('/GET products', () => {
+    it('deve listar produtos', (done) => {
+      chai
+        .request(server)
+        .get(`/store/${produto.lojaId}/products`)
+        .set('Authorization', `Bearer ${token}`)
+        .end((err, res) => {
+          res.should.have.status(200);
+          done();
+        })
+    });
+  });
   describe('/DELETE product', () => {
     it('deve remover produto', (done) => {
       chai
@@ -232,7 +244,7 @@ describe('## STORE', () => {
         .end((err, res) => {
           res.should.have.status(200);
           done();
-        })
-    })
-  })
+        });
+    });
+  });
 });

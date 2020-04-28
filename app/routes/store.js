@@ -48,4 +48,13 @@ router.patch(
   controller.updateProduct,
 );
 
+// Listar produtos de uma loja
+router.get(
+  '/:id/products',
+  requireAuth,
+  trimRequest.all,
+  validate.listProducts,
+  controller.listProducts,
+);
+
 module.exports = router;
