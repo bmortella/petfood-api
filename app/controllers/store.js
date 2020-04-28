@@ -1,5 +1,6 @@
 const { matchedData } = require('express-validator');
 const Store = require('../models/store');
+const Product = require('../models/product');
 const { handleError, buildErrObject } = require('./utils');
 
 const createStore = async (costumer, data) => new Promise((resolve, reject) => {
@@ -10,8 +11,14 @@ const createStore = async (costumer, data) => new Promise((resolve, reject) => {
   });
 });
 
+const addProduct = async (data) => new Promise((resolve, reject) => {
+  Product.create(data, (err, item) => {
+    if (err) return reject(buildErrObject(500, err));
+    return resolve(item);
+  });
+});
 
-exports.register = async (req, res) => {
+exports.registerStore = async (req, res) => {
   try {
     const data = matchedData(req);
     if (req.user.tipo === 'cliente') {
@@ -25,5 +32,15 @@ exports.register = async (req, res) => {
     }
   } catch (err) {
     handleError(res, buildErrObject(422, err));
+  }
+};
+
+exports.registerProduct = async (req, res) => {
+  try {
+    const data = matchedData(req);
+    const product = await addProduct(data);
+    res.status(201).json(product);
+  } catch (err) {
+    handleError(err);
   }
 };

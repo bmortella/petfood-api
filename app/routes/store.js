@@ -17,8 +17,17 @@ router.post(
   '/',
   requireAuth,
   trimRequest.all,
-  validate.register,
-  controller.register,
+  validate.registerStore,
+  controller.registerStore,
+);
+
+// Registrar produto
+router.post(
+  '/product',
+  requireAuth,
+  trimRequest.all,
+  validate.registerProduct,
+  controller.registerProduct,
 );
 
 module.exports = router;

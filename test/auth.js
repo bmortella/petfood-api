@@ -12,6 +12,7 @@ chai.use(chaiHttp);
 
 let createdClient;
 let token;
+let idLoja;
 
 describe('## AUTH', () => {
   describe('/POST register', () => {
@@ -142,6 +143,7 @@ describe('## STORE', () => {
         .send(dados)
         .end((err, res) => {
           res.should.have.status(201);
+          idLoja = res.body._id;
           done();
         });
     });
@@ -158,6 +160,44 @@ describe('## STORE', () => {
       chai
         .request(server)
         .post('/store')
+        .set('Authorization', `Bearer ${token}`)
+        .send(dados)
+        .end((err, res) => {
+          res.should.have.status(422);
+          done();
+        });
+    });
+  });
+  describe('/POST product', () => {
+    it('deve registrar produto', (done) => {
+      const dados = {
+        lojaId: idLoja,
+        nomeProduto: faker.commerce.productName(),
+        preco: faker.random.number(),
+        codBarras: faker.random.number(),
+        descricao: faker.lorem.sentence(),
+        tags: faker.lorem.words(),
+      };
+      chai
+        .request(server)
+        .post('/store/product')
+        .set('Authorization', `Bearer ${token}`)
+        .send(dados)
+        .end((err, res) => {
+          res.should.have.status(201);
+          done();
+        });
+    });
+    it('nao deve registrar produto (falta dados)', (done) => {
+      const dados = {
+        lojaId: idLoja,
+        preco: faker.random.number(),
+        descricao: faker.lorem.sentence(),
+        tags: faker.lorem.words(),
+      };
+      chai
+        .request(server)
+        .post('/store/product')
         .set('Authorization', `Bearer ${token}`)
         .send(dados)
         .end((err, res) => {

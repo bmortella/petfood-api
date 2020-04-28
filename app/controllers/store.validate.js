@@ -1,7 +1,7 @@
 const { check } = require('express-validator');
 const { validationResult } = require('./utils');
 
-exports.register = [
+exports.registerStore = [
   check('nomeLoja')
     .exists()
     .withMessage('MISSING')
@@ -41,6 +41,48 @@ exports.register = [
   check('complemento')
     .exists()
     .withMessage('MISSING'),
+  (req, res, next) => {
+    validationResult(req, res, next);
+  },
+];
+
+exports.registerProduct = [
+  check('lojaId')
+    .exists()
+    .withMessage('MISSING')
+    .not()
+    .isEmpty()
+    .withMessage('IS_EMPTY'),
+  check('nomeProduto')
+    .exists()
+    .withMessage('MISSING')
+    .not()
+    .isEmpty()
+    .withMessage('IS_EMPTY'),
+  check('preco')
+    .exists()
+    .withMessage('MISSING')
+    .not()
+    .isEmpty()
+    .withMessage('IS_EMPTY'),
+  check('codBarras')
+    .exists()
+    .withMessage('MISSING')
+    .not()
+    .isEmpty()
+    .withMessage('IS_EMPTY'),
+  check('descricao')
+    .exists()
+    .withMessage('MISSING')
+    .not()
+    .isEmpty()
+    .withMessage('IS_EMPTY'),
+  check('tags')
+    .exists()
+    .withMessage('MISSING')
+    .not()
+    .isEmpty()
+    .withMessage('IS_EMPTY'),
   (req, res, next) => {
     validationResult(req, res, next);
   },
