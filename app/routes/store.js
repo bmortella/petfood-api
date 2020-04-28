@@ -30,4 +30,13 @@ router.post(
   controller.registerProduct,
 );
 
+// Remover produto
+router.delete(
+  '/product/:id',
+  requireAuth,
+  trimRequest.all,
+  validate.deleteProduct,
+  controller.deleteProduct,
+);
+
 module.exports = router;

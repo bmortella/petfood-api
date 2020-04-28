@@ -13,6 +13,7 @@ chai.use(chaiHttp);
 let createdClient;
 let token;
 let idLoja;
+let produtoId;
 
 describe('## AUTH', () => {
   describe('/POST register', () => {
@@ -185,6 +186,7 @@ describe('## STORE', () => {
         .send(dados)
         .end((err, res) => {
           res.should.have.status(201);
+          produtoId = res.body._id;
           done();
         });
     });
@@ -206,4 +208,16 @@ describe('## STORE', () => {
         });
     });
   });
+  describe('/DELETE product', () => {
+    it('deve remover produto', (done) => {
+      chai
+        .request(server)
+        .delete(`/store/product/${produtoId}`)
+        .set('Authorization', `Bearer ${token}`)
+        .end((err, res) => {
+          res.should.have.status(200);
+          done();
+        })
+    })
+  })
 });

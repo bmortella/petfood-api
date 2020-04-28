@@ -18,6 +18,13 @@ const addProduct = async (data) => new Promise((resolve, reject) => {
   });
 });
 
+const delProduct = async (id) => new Promise((resolve, reject) => {
+  Product.deleteOne({_id: id}, (err) => {
+    if (err) return reject(buildErrObject(500, err));
+    return resolve();
+  })
+})
+
 exports.registerStore = async (req, res) => {
   try {
     const data = matchedData(req);
@@ -44,3 +51,13 @@ exports.registerProduct = async (req, res) => {
     handleError(err);
   }
 };
+
+exports.deleteProduct = async (req, res) => {
+  try {
+    const data = matchedData(req);
+    await delProduct(data.id);
+    res.sendStatus(200);
+  } catch (err) {
+    handleError(err);
+  }
+}
