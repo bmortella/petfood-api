@@ -33,7 +33,7 @@ const findCustomerByEmail = async (email) => new Promise((resolve, reject) => {
       reject(buildErrObject(422, err));
     }
     if (!customer) {
-      reject(buildErrObject(404, 'CLIENT_NOT_FOUND'));
+      reject(buildErrObject(404, 'CUSTOMER_NOT_FOUND'));
     } else {
       resolve(customer);
     }

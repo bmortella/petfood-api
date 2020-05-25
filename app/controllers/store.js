@@ -11,6 +11,17 @@ const createStore = async (costumer, data) => new Promise((resolve, reject) => {
   });
 });
 
+const getStore = async (id) => new Promise((resolve, reject) => {
+  Store.findById(id, (err, item) => {
+    if (err) return reject(buildErrObject(500, err));
+    if (!item) {
+      return reject(buildErrObject(404, 'STORE_NOT_FOUND'));
+    } else {
+      return resolve(item);
+    }
+  });
+});
+
 const updateStore = async (data) => new Promise((resolve, reject) => {
   Store.updateOne({_id: data._id}, data, (err, item) => {
     if (err) return reject(buildErrObject(500, err));
@@ -109,6 +120,16 @@ exports.listProducts = async (req, res) => {
     const data = matchedData(req);
     const items = await listProducts(data.id);
     res.status(200).json(items);
+  } catch (err) {
+    handleError(err);
+  }
+}
+
+exports.getStore = async (req, res) => {
+  try {
+    const data = matchedData(req);
+    const item = await getStore(data.id);
+    res.status(200).json(item);
   } catch (err) {
     handleError(err);
   }

@@ -66,4 +66,13 @@ router.get(
   controller.listProducts,
 );
 
+// Pegar loja
+router.get(
+  '/:id',
+  requireAuth,
+  trimRequest.all,
+  validate.getStore,
+  controller.getStore,
+);
+
 module.exports = router;

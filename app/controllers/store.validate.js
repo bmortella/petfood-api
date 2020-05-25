@@ -111,3 +111,15 @@ exports.listProducts = [
     validationResult(req, res, next);
   }
 ];
+
+exports.getStore = [
+  check('id')
+    .exists()
+    .withMessage('MISSING')
+    .not()
+    .isEmpty()
+    .withMessage('IS_EMPTY'),
+  (req, res, next) => {
+    validationResult(req, res, next);
+  }
+];
