@@ -75,4 +75,12 @@ router.get(
   controller.getStore,
 );
 
+// Listar lojas
+router.get(
+  '/all',
+  requireAuth,
+  trimRequest.all,
+  controller.listStores,
+);
+
 module.exports = router;

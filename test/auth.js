@@ -160,6 +160,16 @@ describe('## STORE', () => {
           done();
         })
     });
+    it('deve listar lojas', (done) => {
+      chai
+        .request(server)
+        .get('/store/all')
+        .set('Authorization', `Bearer ${token}`)
+        .end((err, res) => {
+          res.should.have.status(200);
+          done();
+        })
+    })
     it('deve editar loja', (done) => {
       dadosLoja.nomeLoja = faker.company.companyName()
       chai
