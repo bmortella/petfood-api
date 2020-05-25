@@ -158,7 +158,7 @@ describe('## STORE', () => {
         .end((err, res) => {
           res.should.have.status(200);
           done();
-        })
+        });
     });
     it('deve listar lojas', (done) => {
       chai

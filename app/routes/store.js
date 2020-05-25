@@ -66,6 +66,14 @@ router.get(
   controller.listProducts,
 );
 
+// Listar lojas
+router.get(
+  '/all',
+  requireAuth,
+  trimRequest.all,
+  controller.listStores,
+);
+
 // Pegar loja
 router.get(
   '/:id',
@@ -73,14 +81,6 @@ router.get(
   trimRequest.all,
   validate.getStore,
   controller.getStore,
-);
-
-// Listar lojas
-router.get(
-  '/all',
-  requireAuth,
-  trimRequest.all,
-  controller.listStores,
 );
 
 module.exports = router;
