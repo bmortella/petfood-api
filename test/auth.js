@@ -168,8 +168,8 @@ describe('## STORE', () => {
         .end((err, res) => {
           res.should.have.status(200);
           done();
-        })
-    })
+        });
+    });
     it('deve editar loja', (done) => {
       dadosLoja.nomeLoja = faker.company.companyName()
       chai
