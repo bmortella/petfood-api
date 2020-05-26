@@ -26,7 +26,7 @@ router.patch(
   '/',
   requireAuth,
   trimRequest.all,
-  validate.registerStore,
+  validate.updateStore,
   controller.updateStore,
 );
 
@@ -53,7 +53,7 @@ router.patch(
   '/product',
   requireAuth,
   trimRequest.all,
-  validate.registerProduct,
+  validate.updateProduct,
   controller.updateProduct,
 );
 
@@ -82,5 +82,14 @@ router.get(
   validate.getStore,
   controller.getStore,
 );
+
+// // Fechar loja
+// router.delete(
+//   '/:id',
+//   requireAuth,
+//   trimRequest.all,
+//   validate.deleteStore,
+//   controller.deleteStore
+// )
 
 module.exports = router;
