@@ -16,9 +16,8 @@ const getStore = async (id) => new Promise((resolve, reject) => {
     if (err) return reject(buildErrObject(500, err));
     if (!item) {
       return reject(buildErrObject(404, 'STORE_NOT_FOUND'));
-    } else {
-      return resolve(item);
     }
+    return resolve(item);
   });
 });
 
@@ -26,14 +25,14 @@ const listStores = async () => new Promise((resolve, reject) => {
   Store.find({}, (err, items) => {
     if (err) return reject(buildErrObject(500, err));
     return resolve(items);
-  })
-})
+  });
+});
 
 const updateStore = async (data) => new Promise((resolve, reject) => {
-  Store.updateOne({_id: data._id}, data, (err, item) => {
+  Store.updateOne({ _id: data._id }, data, (err, item) => {
     if (err) return reject(buildErrObject(500, err));
     return resolve(item);
-  })
+  });
 });
 
 const addProduct = async (data) => new Promise((resolve, reject) => {
@@ -44,25 +43,25 @@ const addProduct = async (data) => new Promise((resolve, reject) => {
 });
 
 const delProduct = async (id) => new Promise((resolve, reject) => {
-  Product.deleteOne({_id: id}, (err) => {
+  Product.deleteOne({ _id: id }, (err) => {
     if (err) return reject(buildErrObject(500, err));
     return resolve();
-  })
-})
+  });
+});
 
 const updateProduct = async (data) => new Promise((resolve, reject) => {
-  Product.updateOne({_id: data._id}, data, (err, item) => {
+  Product.updateOne({ _id: data._id }, data, (err, item) => {
     if (err) return reject(buildErrObject(500, err));
     return resolve(item);
-  })
-})
+  });
+});
 
 const listProducts = async (id) => new Promise((resolve, reject) => {
-  Product.find({lojaId: id}, (err, items) => {
+  Product.find({ lojaId: id }, (err, items) => {
     if (err) return reject(buildErrObject(500, err));
     return resolve(items);
-  })
-})
+  });
+});
 
 exports.registerStore = async (req, res) => {
   try {
@@ -87,10 +86,10 @@ exports.updateStore = async (req, res) => {
     const item = await updateStore(data);
     res.status(200).json(item);
   } catch (err) {
-    console.log(err)
+    console.log(err);
     handleError(err);
   }
-}
+};
 
 exports.registerProduct = async (req, res) => {
   try {
@@ -110,7 +109,7 @@ exports.deleteProduct = async (req, res) => {
   } catch (err) {
     handleError(err);
   }
-}
+};
 
 exports.updateProduct = async (req, res) => {
   try {
@@ -120,7 +119,7 @@ exports.updateProduct = async (req, res) => {
   } catch (err) {
     handleError(err);
   }
-}
+};
 
 exports.listProducts = async (req, res) => {
   try {
@@ -130,7 +129,7 @@ exports.listProducts = async (req, res) => {
   } catch (err) {
     handleError(err);
   }
-}
+};
 
 exports.getStore = async (req, res) => {
   try {
@@ -140,7 +139,7 @@ exports.getStore = async (req, res) => {
   } catch (err) {
     handleError(err);
   }
-}
+};
 
 exports.listStores = async (req, res) => {
   try {
@@ -149,4 +148,4 @@ exports.listStores = async (req, res) => {
   } catch (err) {
     handleError(err);
   }
-}
+};

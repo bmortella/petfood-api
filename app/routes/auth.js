@@ -2,6 +2,7 @@ const express = require('express');
 const trimRequest = require('trim-request');
 const controller = require('../controllers/auth');
 const validate = require('../controllers/auth.validate');
+// const { route } = require('.');
 
 const router = express.Router();
 
@@ -19,6 +20,15 @@ router.post(
   trimRequest.all,
   validate.login,
   controller.login,
+);
+
+
+// Editar perfil
+router.patch(
+  '/user',
+  trimRequest.all,
+  validate.user,
+  controller.editUser,
 );
 
 module.exports = router;

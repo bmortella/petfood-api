@@ -40,6 +40,13 @@ const findCustomerByEmail = async (email) => new Promise((resolve, reject) => {
   });
 });
 
+const updateUser = async (data) => new Promise((resolve, reject) => {
+  Customer.updateOne({ _id: data._id }, data, (err, item) => {
+    if (err) return reject(buildErrObject(500, err));
+    return resolve(item);
+  });
+});
+
 exports.register = async (req, res) => {
   try {
     req = matchedData(req);
@@ -79,5 +86,16 @@ exports.login = async (req, res) => {
   } catch (err) {
     console.log(err);
     handleError(res, buildErrObject(422, err));
+  }
+};
+
+exports.editUser = async (req, res) => {
+  try {
+    const data = matchedData(req);
+    const item = await updateUser(data);
+    res.status(200).json(item);
+  } catch (err) {
+    console.log(err);
+    handleError(err);
   }
 };

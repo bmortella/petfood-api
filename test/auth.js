@@ -171,7 +171,7 @@ describe('## STORE', () => {
         });
     });
     it('deve editar loja', (done) => {
-      dadosLoja.nomeLoja = faker.company.companyName()
+      dadosLoja.nomeLoja = faker.company.companyName();
       chai
         .request(server)
         .patch('/store')
@@ -248,15 +248,15 @@ describe('## STORE', () => {
       produto.preco = faker.random.number();
       chai
         .request(server)
-        .patch(`/store/product`)
+        .patch('/store/product')
         .set('Authorization', `Bearer ${token}`)
         .send(produto)
         .end((err, res) => {
           res.should.have.status(200);
           done();
-        })
-    })
-  })
+        });
+    });
+  });
   describe('/GET products', () => {
     it('deve listar produtos', (done) => {
       chai
@@ -266,7 +266,7 @@ describe('## STORE', () => {
         .end((err, res) => {
           res.should.have.status(200);
           done();
-        })
+        });
     });
   });
   describe('/DELETE product', () => {

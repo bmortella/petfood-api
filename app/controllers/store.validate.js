@@ -190,7 +190,7 @@ exports.deleteProduct = [
     .withMessage('IS_EMPTY'),
   (req, res, next) => {
     validationResult(req, res, next);
-  }
+  },
 ];
 
 exports.listProducts = [
@@ -202,7 +202,7 @@ exports.listProducts = [
     .withMessage('IS_EMPTY'),
   (req, res, next) => {
     validationResult(req, res, next);
-  }
+  },
 ];
 
 exports.getStore = [
@@ -214,5 +214,5 @@ exports.getStore = [
     .withMessage('IS_EMPTY'),
   (req, res, next) => {
     validationResult(req, res, next);
-  }
+  },
 ];
