@@ -272,6 +272,28 @@ describe('## STORE', () => {
         });
     });
   });
+  describe('/GET product', () => {
+    it('deve pegar produto', (done) => {
+      chai
+        .request(server)
+        .get(`/store/product/${produto._id}`)
+        .set('Authorization', `Bearer ${token}`)
+        .end((err, res) => {
+          res.should.have.status(200);
+          done();
+        });
+    });
+    it('nao deve pegar produto (nao existe)', (done) => {
+      chai
+        .request(server)
+        .get('/store/product/1eefd1111111ec111cc8f63b')
+        .set('Authorization', `Bearer ${token}`)
+        .end((err, res) => {
+          res.should.have.status(404);
+          done();
+        });
+    });
+  });
   describe('/GET products', () => {
     it('deve listar produtos', (done) => {
       chai

@@ -57,6 +57,15 @@ router.patch(
   controller.updateProduct,
 );
 
+// Pegar produto
+router.get(
+  '/product/:id',
+  requireAuth,
+  trimRequest.all,
+  validate.deleteProduct,
+  controller.getProduct,
+);
+
 // Listar produtos de uma loja
 router.get(
   '/:id/products',

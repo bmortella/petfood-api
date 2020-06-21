@@ -1,4 +1,5 @@
 const { matchedData } = require('express-validator');
+const { expect } = require('chai');
 const Store = require('../models/store');
 const Product = require('../models/product');
 const { handleError, buildErrObject } = require('./utils');
@@ -56,6 +57,16 @@ const updateProduct = async (data) => new Promise((resolve, reject) => {
   });
 });
 
+const getProduct = async (id) => new Promise((resolve, reject) => {
+  Product.findById(id, (err, item) => {
+    if (err) return reject(buildErrObject(500, err));
+    if (!item) {
+      return reject(buildErrObject(404, 'PRODUCT_NOT_FOUND'));
+    }
+    return resolve(item);
+  });
+});
+
 const listProducts = async (id) => new Promise((resolve, reject) => {
   Product.find({ lojaId: id }, (err, items) => {
     if (err) return reject(buildErrObject(500, err));
@@ -86,8 +97,7 @@ exports.updateStore = async (req, res) => {
     const item = await updateStore(data);
     res.status(200).json(item);
   } catch (err) {
-    console.log(err);
-    handleError(err);
+    handleError(res, err);
   }
 };
 
@@ -97,7 +107,7 @@ exports.registerProduct = async (req, res) => {
     const product = await addProduct(data);
     res.status(201).json(product);
   } catch (err) {
-    handleError(err);
+    handleError(res, err);
   }
 };
 
@@ -107,7 +117,7 @@ exports.deleteProduct = async (req, res) => {
     await delProduct(data.id);
     res.sendStatus(200);
   } catch (err) {
-    handleError(err);
+    handleError(res, err);
   }
 };
 
@@ -117,7 +127,7 @@ exports.updateProduct = async (req, res) => {
     const item = await updateProduct(data);
     res.status(200).json(item);
   } catch (err) {
-    handleError(err);
+    handleError(res, err);
   }
 };
 
@@ -127,7 +137,7 @@ exports.listProducts = async (req, res) => {
     const items = await listProducts(data.id);
     res.status(200).json(items);
   } catch (err) {
-    handleError(err);
+    handleError(res, err);
   }
 };
 
@@ -137,7 +147,7 @@ exports.getStore = async (req, res) => {
     const item = await getStore(data.id);
     res.status(200).json(item);
   } catch (err) {
-    handleError(err);
+    handleError(res, err);
   }
 };
 
@@ -146,6 +156,16 @@ exports.listStores = async (req, res) => {
     const items = await listStores();
     res.status(200).json(items);
   } catch (err) {
-    handleError(err);
+    handleError(res, err);
+  }
+};
+
+exports.getProduct = async (req, res) => {
+  try {
+    const data = matchedData(req);
+    const item = await getProduct(data.id);
+    res.status(200).json(item);
+  } catch (err) {
+    handleError(res, err);
   }
 };
