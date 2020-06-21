@@ -42,6 +42,7 @@ describe('## AUTH', () => {
           res.should.have.status(201);
           res.body.should.be.an('object');
           res.body.should.include.keys('id', 'token');
+          client._id = res.body.id;
           createdClient = client;
           done();
         });
@@ -68,6 +69,20 @@ describe('## AUTH', () => {
           res.should.have.status(422);
           res.body.should.be.an('object');
           res.body.should.include.keys('errors');
+          done();
+        });
+    });
+  });
+
+  describe('/PATCH user', () => {
+    it('deve editar pefil', (done) => {
+      createdClient.nome = faker.name.findName();
+      chai
+        .request(server)
+        .patch('/auth/user')
+        .send({ _id: createdClient._id, nome: createdClient.nome })
+        .end((err, res) => {
+          res.should.have.status(200);
           done();
         });
     });
