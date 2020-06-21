@@ -38,7 +38,7 @@ exports.cancelOrder = async (req, res) => {
   try {
     const data = matchedData(req);
     await delOrder(data.id);
-    res.status(200);
+    res.sendStatus(200);
   } catch (err) {
     handleError(err);
   }
@@ -48,7 +48,7 @@ exports.completeOrder = async (req, res) => {
   try {
     const data = matchedData(req);
     await completeOrder(data.id);
-    res.status(200);
+    res.sendStatus(200);
   } catch (err) {
     handleError(err);
   }

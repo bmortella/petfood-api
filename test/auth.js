@@ -282,3 +282,62 @@ describe('## STORE', () => {
     });
   });
 });
+
+describe('## ORDER', () => {
+  let pedido;
+  describe('/POST /', () => {
+    it('deve abrir um pedido', (done) => {
+      const dados = {
+        lojaId: idLoja,
+        nomeProduto: faker.commerce.productName(),
+        preco: faker.random.number(),
+        codBarras: faker.random.number(),
+        descricao: faker.lorem.sentence(),
+        tags: faker.lorem.words(),
+      };
+      chai
+        .request(server)
+        .post('/store/product')
+        .set('Authorization', `Bearer ${token}`)
+        .send(dados)
+        .end((err, res) => {
+          res.should.have.status(201);
+          produto = res.body;
+        });
+      chai
+        .request(server)
+        .post('/order')
+        .set('Authorization', `Bearer ${token}`)
+        .send({ produtoId: produto._id, lojaId: idLoja, preco: produto.preco })
+        .end((err, res) => {
+          res.should.have.status(201);
+          pedido = res.body;
+          done();
+        });
+    });
+  });
+  describe('/PATCH /', () => {
+    it('deve finalizar pedido', (done) => {
+      chai
+        .request(server)
+        .patch(`/order/${pedido._id}`)
+        .set('Authorization', `Bearer ${token}`)
+        .end((err, res) => {
+          res.should.have.status(200);
+          done();
+        });
+    });
+  });
+  describe('/DELETE /', () => {
+    it('deve remover(cancelar) pedido', (done) => {
+      chai
+        .request(server)
+        .delete(`/order/${pedido._id}`)
+        .set('Authorization', `Bearer ${token}`)
+        .end((err, res) => {
+          res.should.have.status(200);
+          done();
+        });
+    });
+  });
+});
