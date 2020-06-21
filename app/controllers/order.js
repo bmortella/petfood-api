@@ -17,6 +17,13 @@ const delOrder = async (id) => new Promise((resolve, reject) => {
   });
 });
 
+const completeOrder = async (id) => new Promise((resolve, reject) => {
+  Order.updateOne({ _id: id }, { finalizado: true }, (err, item) => {
+    if (err) return reject(buildErrObject(500, err));
+    return resolve(item);
+  });
+});
+
 exports.newOrder = async (req, res) => {
   try {
     const data = matchedData(req);
@@ -31,6 +38,16 @@ exports.cancelOrder = async (req, res) => {
   try {
     const data = matchedData(req);
     await delOrder(data.id);
+    res.status(200);
+  } catch (err) {
+    handleError(err);
+  }
+};
+
+exports.completeOrder = async (req, res) => {
+  try {
+    const data = matchedData(req);
+    await completeOrder(data.id);
     res.status(200);
   } catch (err) {
     handleError(err);

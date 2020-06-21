@@ -31,4 +31,13 @@ router.delete(
   controller.cancelOrder,
 );
 
+// Concluir pedido
+router.patch(
+  '/:id',
+  requireAuth,
+  trimRequest.all,
+  validate.cancelOrder,
+  controller.completeOrder,
+);
+
 module.exports = router;
