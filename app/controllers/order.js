@@ -24,6 +24,13 @@ const completeOrder = async (id) => new Promise((resolve, reject) => {
   });
 });
 
+const getOrders = async (filters) => new Promise((resolve, reject) => {
+  Order.find(filters, (err, items) => {
+    if (err) return reject(buildErrObject(500, err));
+    return resolve(items);
+  });
+});
+
 exports.newOrder = async (req, res) => {
   try {
     const data = matchedData(req);
@@ -49,6 +56,28 @@ exports.completeOrder = async (req, res) => {
     const data = matchedData(req);
     await completeOrder(data.id);
     res.sendStatus(200);
+  } catch (err) {
+    handleError(err);
+  }
+};
+
+exports.ordersSeller = async (req, res) => {
+  try {
+    if (!req.user.loja) {
+      res.sendStatus(401);
+      return;
+    }
+    const items = await getOrders({ lojaId: req.user.loja });
+    res.status(200).json(items);
+  } catch (err) {
+    handleError(err);
+  }
+};
+
+exports.orders = async (req, res) => {
+  try {
+    const items = await getOrders({ clienteId: req.user._id });
+    res.status(200).json(items);
   } catch (err) {
     handleError(err);
   }

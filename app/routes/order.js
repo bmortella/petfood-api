@@ -40,5 +40,20 @@ router.patch(
   controller.completeOrder,
 );
 
+// Ver pedidos (finalizados ou nao)
+router.get(
+  '/ordersSeller',
+  requireAuth,
+  trimRequest.all,
+  controller.ordersSeller,
+);
+
+// Ver pedidos (finalizados ou nao)
+router.get(
+  '/orders',
+  requireAuth,
+  trimRequest.all,
+  controller.orders,
+);
 
 module.exports = router;
