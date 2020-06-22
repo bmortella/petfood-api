@@ -2,6 +2,7 @@ const { matchedData } = require('express-validator');
 const jwt = require('jsonwebtoken');
 const Customer = require('../models/customer');
 const { handleError, buildErrObject, cryptPass } = require('./utils');
+const { delete } = require('../../app');
 
 const registerClient = async (req) => new Promise((resolve, reject) => {
   const customer = new Customer({
@@ -47,6 +48,8 @@ const updateUser = async (data) => new Promise((resolve, reject) => {
     } else {
       delete data.senha;
     }
+  } else {
+    delete data.senha;
   };
   Customer.updateOne({ _id: data._id }, data, (err, item) => {
     if (err) return reject(buildErrObject(500, err));
