@@ -365,8 +365,8 @@ describe('## ORDER', () => {
         });
     });
   });
-  //pegar pedidos
-  //pegar pedidos visao vendedor
+  // pegar pedidos
+  // pegar pedidos visao vendedor
   describe('/DELETE /', () => {
     it('deve remover(cancelar) pedido', (done) => {
       chai

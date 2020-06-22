@@ -2,7 +2,6 @@ const { matchedData } = require('express-validator');
 const jwt = require('jsonwebtoken');
 const Customer = require('../models/customer');
 const { handleError, buildErrObject, cryptPass } = require('./utils');
-const { delete } = require('../../app');
 
 const registerClient = async (req) => new Promise((resolve, reject) => {
   const customer = new Customer({
