@@ -18,7 +18,8 @@ const delOrder = async (id) => new Promise((resolve, reject) => {
 });
 
 const completeOrder = async (id) => new Promise((resolve, reject) => {
-  Order.updateOne({ _id: id }, { finalizado: true }, (err, item) => {
+  const dNow = Date.now()
+  Order.updateOne({ _id: id, dataFinalizado: dNow }, { finalizado: true }, (err, item) => {
     if (err) return reject(buildErrObject(500, err));
     return resolve(item);
   });

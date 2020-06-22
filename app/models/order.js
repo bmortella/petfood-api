@@ -22,6 +22,15 @@ const OrderSchema = new mongoose.Schema({
     required: true,
     default: false,
   },
+  dataFinalizado: {
+    type: Date,
+    required: false,
+  },
+  dataAberto: {
+    type: Date,
+    required: true,
+    default: Date.now
+  },
 });
 
 module.exports = mongoose.model('Order', OrderSchema);

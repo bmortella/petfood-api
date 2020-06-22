@@ -70,10 +70,7 @@ exports.register = [
     .withMessage('IS_EMPTY'),
   check('complemento')
     .exists()
-    .withMessage('MISSING')
-    .not()
-    .isEmpty()
-    .withMessage('IS_EMPTY'),
+    .withMessage('MISSING'),
   check('cep')
     .exists()
     .withMessage('MISSING')
