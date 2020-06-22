@@ -42,7 +42,9 @@ const findCustomerByEmail = async (email) => new Promise((resolve, reject) => {
 
 const updateUser = async (data) => new Promise((resolve, reject) => {
   if (data.senha) {
+    console.log(data.senha)
     if (data.senha.length >= 8) {
+      console.log('passou')
       data.senha = cryptPass(data.senha)
     };
   };
