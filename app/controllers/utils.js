@@ -1,4 +1,5 @@
 const { validationResult } = require('express-validator');
+const bcrypt = require('bcrypt');
 
 exports.validationResult = (req, res, next) => {
   try {
@@ -20,4 +21,10 @@ exports.handleError = (res, err) => {
       msg: err.message,
     },
   });
+};
+
+exports.cryptPass = (pass) => {
+  const salt = bcrypt.genSaltSync(10);
+  const passHash = bcrypt.hashSync(pass, salt);
+  return passHash;
 };

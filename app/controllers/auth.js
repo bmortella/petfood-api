@@ -1,7 +1,7 @@
 const { matchedData } = require('express-validator');
 const jwt = require('jsonwebtoken');
 const Customer = require('../models/customer');
-const { handleError, buildErrObject } = require('./utils');
+const { handleError, buildErrObject, cryptPass } = require('./utils');
 
 const registerClient = async (req) => new Promise((resolve, reject) => {
   const customer = new Customer({
@@ -41,6 +41,9 @@ const findCustomerByEmail = async (email) => new Promise((resolve, reject) => {
 });
 
 const updateUser = async (data) => new Promise((resolve, reject) => {
+  if (data.senha) {
+    data.senha = cryptPass(data.senha)
+  }
   Customer.updateOne({ _id: data._id }, data, (err, item) => {
     if (err) return reject(buildErrObject(500, err));
     return resolve(item);
@@ -91,8 +94,7 @@ exports.login = async (req, res) => {
 
 exports.editUser = async (req, res) => {
   try {
-    const data = matchedData(req);
-    const item = await updateUser(data);
+    const item = await updateUser(req.body);
     res.status(200).json(item);
   } catch (err) {
     console.log(err);
