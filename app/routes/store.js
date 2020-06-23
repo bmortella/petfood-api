@@ -92,13 +92,4 @@ router.get(
   controller.getStore,
 );
 
-// // Fechar loja
-// router.delete(
-//   '/:id',
-//   requireAuth,
-//   trimRequest.all,
-//   validate.deleteStore,
-//   controller.deleteStore
-// )
-
 module.exports = router;

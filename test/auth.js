@@ -15,6 +15,8 @@ let token;
 let idLoja;
 let produto;
 let dadosLoja;
+let pedido;
+let produtoPedido;
 
 describe('## AUTH', () => {
   describe('/POST register', () => {
@@ -271,6 +273,18 @@ describe('## STORE', () => {
           done();
         });
     });
+    it('nao deve editar produto', (done) => {
+      delete produto.nome;
+      chai
+        .request(server)
+        .patch('/store/product')
+        .set('Authorization', `Bearer ${token}`)
+        .send(produto)
+        .end((err, res) => {
+          res.should.have.status(500);
+          done();
+        })
+    })
   });
   describe('/GET product', () => {
     it('deve pegar produto', (done) => {
@@ -321,7 +335,6 @@ describe('## STORE', () => {
 });
 
 describe('## ORDER', () => {
-  let pedido;
   describe('/POST /', () => {
     it('deve abrir um pedido', (done) => {
       const dados = {
@@ -339,17 +352,17 @@ describe('## ORDER', () => {
         .send(dados)
         .end((err, res) => {
           res.should.have.status(201);
-          produto = res.body;
-        });
-      chai
-        .request(server)
-        .post('/order')
-        .set('Authorization', `Bearer ${token}`)
-        .send({ produtoId: produto._id, lojaId: idLoja, preco: produto.preco })
-        .end((err, res) => {
-          res.should.have.status(201);
-          pedido = res.body;
-          done();
+          produtoPedido = res.body;
+          chai
+          .request(server)
+          .post('/order')
+          .set('Authorization', `Bearer ${token}`)
+          .send({ produtoId: produtoPedido._id, lojaId: idLoja, preco: produtoPedido.preco })
+          .end((err, res) => {
+            res.should.have.status(201);
+            pedido = res.body;
+            done();
+          });
         });
     });
   });
@@ -365,8 +378,30 @@ describe('## ORDER', () => {
         });
     });
   });
-  // pegar pedidos
-  // pegar pedidos visao vendedor
+  describe('/GET orders', () => {
+    it('deve buscar pedidos (visao cliente)', (done) => {
+      chai
+        .request(server)
+        .get(`/order/orders`)
+        .set(`Authorization`, `Bearer ${token}`)
+        .end((err, res) => {
+          res.should.have.status(200);
+          done();
+        })
+    });
+  }),
+  describe('/GET ordersSeller', () => {
+    it('deve buscar pedidos (visao vendedor)', (done) => {
+      chai
+        .request(server)
+        .get(`/order/ordersSeller`)
+        .set(`Authorization`, `Bearer ${token}`)
+        .end((err, res) => {
+          res.should.have.status(200);
+          done();
+        })
+    });
+  }),
   describe('/DELETE /', () => {
     it('deve remover(cancelar) pedido', (done) => {
       chai
