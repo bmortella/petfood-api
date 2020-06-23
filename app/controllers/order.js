@@ -11,6 +11,13 @@ const fetchStore = async (id) => new Promise((resolve, reject) => {
  })
 });
 
+const fetchProduct = async (id) => new Promise((resolve, reject) => {
+  Product.findById(id, (err, item) => {
+    if (err) return reject(buildErrObject(500, err));
+    return resolve(item);
+  })
+ });
+
 const addOrder = async (customerId, data) => new Promise((resolve, reject) => {
   data.clienteId = customerId;
   Order.create(data, (err, item) => {
@@ -45,7 +52,10 @@ exports.newOrder = async (req, res) => {
   try {
     let data = matchedData(req);
     const store = await fetchStore(data.lojaId)
+    const produto = await fetchProduct(data.produtoId)
     data.nomeLoja = store.nomeLoja;
+    data.nomeCliente = req.user.nome;
+    data.nomeProduto = produto.nomeProduto;
     const order = await addOrder(req.user._id, data);
     res.status(201).json(order);
   } catch (err) {
