@@ -75,10 +75,10 @@ exports.completeOrder = async (req, res) => {
 
 exports.ordersSeller = async (req, res) => {
   try {
-    // if (!req.user.loja) {
-    //   res.sendStatus(401);
-    //   return;
-    // }
+    if (!req.user.loja) {
+      res.sendStatus(401);
+      return;
+    }
     const items = await getOrders({ lojaId: req.user.loja });
     res.status(200).json(items);
   } catch (err) {

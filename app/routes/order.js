@@ -34,7 +34,6 @@ router.delete(
 // Concluir pedido
 router.patch(
   '/:id',
-  requireAuth,
   trimRequest.all,
   validate.cancelOrder,
   controller.completeOrder,
