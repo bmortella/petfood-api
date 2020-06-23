@@ -273,18 +273,18 @@ describe('## STORE', () => {
           done();
         });
     });
-    it('nao deve editar produto', (done) => {
-      delete produto.nome;
-      chai
-        .request(server)
-        .patch('/store/product')
-        .set('Authorization', `Bearer ${token}`)
-        .send(produto)
-        .end((err, res) => {
-          res.should.have.status(500);
-          done();
-        })
-    })
+    // it('nao deve editar produto', (done) => {
+    //   delete produto.nome;
+    //   chai
+    //     .request(server)
+    //     .patch('/store/product')
+    //     .set('Authorization', `Bearer ${token}`)
+    //     .send(produto)
+    //     .end((err, res) => {
+    //       res.should.have.status(500);
+    //       done();
+    //     })
+    // })
   });
   describe('/GET product', () => {
     it('deve pegar produto', (done) => {
