@@ -47,6 +47,12 @@ exports.registerStore = [
 ];
 
 exports.updateStore = [
+  check('_id')
+    .exists()
+    .withMessage('MISSING')
+    .not()
+    .isEmpty()
+    .withMessage('IS_EMPTY'),
   check('nomeLoja')
     .exists()
     .withMessage('MISSING')
