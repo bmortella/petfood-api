@@ -49,7 +49,7 @@ const updateUser = async (data) => new Promise((resolve, reject) => {
     }
   } else {
     delete data.senha;
-  };
+  }
   Customer.updateOne({ _id: data._id }, data, (err, item) => {
     if (err) return reject(buildErrObject(500, err));
     return resolve(item);

@@ -80,11 +80,11 @@ describe('## AUTH', () => {
   describe('/PATCH user', () => {
     it('deve editar pefil', (done) => {
       createdClient.nome = faker.name.findName();
-      createdClient.password = faker.internet.password();
+      createdClient.senha = faker.internet.password();
       chai
         .request(server)
         .patch('/auth/user')
-        .send({ _id: createdClient._id, nome: createdClient.nome })
+        .send({ _id: createdClient._id, nome: createdClient.nome, senha: createdClient.senha })
         .end((err, res) => {
           res.should.have.status(200);
           done();
