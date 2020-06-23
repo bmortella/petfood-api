@@ -6,6 +6,10 @@ const OrderSchema = new mongoose.Schema({
     type: mongoose.Types.ObjectId,
     required: true,
   },
+  nomeCliente: {
+    type: String,
+    required: true,
+  },
   lojaId: {
     type: mongoose.Types.ObjectId,
     required: true,
@@ -16,6 +20,10 @@ const OrderSchema = new mongoose.Schema({
   },
   produtoId: {
     type: mongoose.Types.ObjectId,
+    required: true,
+  },
+  nomeProduto: {
+    type: String,
     required: true,
   },
   preco: {
