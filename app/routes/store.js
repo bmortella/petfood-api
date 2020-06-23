@@ -57,6 +57,14 @@ router.patch(
   controller.updateProduct,
 );
 
+// Listar todos os produtos
+router.get(
+  '/product/all',
+  requireAuth,
+  trimRequest.all,
+  controller.getAllProducts,
+);
+
 // Pegar produto
 router.get(
   '/product/:id',

@@ -67,6 +67,13 @@ const getProduct = async (id) => new Promise((resolve, reject) => {
   });
 });
 
+const getAllProducts = async () => new Promise((resolve, reject) => {
+  Product.find({}, (err, items) => {
+    if (err) return reject(buildErrObject(500, err));
+    return resolve(items);
+  });
+});
+
 const listProducts = async (id) => new Promise((resolve, reject) => {
   Product.find({ lojaId: id }, (err, items) => {
     if (err) return reject(buildErrObject(500, err));
@@ -165,6 +172,15 @@ exports.getProduct = async (req, res) => {
     const data = matchedData(req);
     const item = await getProduct(data.id);
     res.status(200).json(item);
+  } catch (err) {
+    handleError(res, err);
+  }
+};
+
+exports.getAllProducts = async (req, res) => {
+  try {
+    const items = await getAllProducts();
+    res.status(200).json(items);
   } catch (err) {
     handleError(res, err);
   }
