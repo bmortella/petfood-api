@@ -93,7 +93,6 @@ exports.login = async (req, res) => {
       handleError(res, buildErrObject(422, 'WRONG_PASSWORD'));
     }
   } catch (err) {
-    console.log(err);
     handleError(res, buildErrObject(422, err));
   }
 };
@@ -103,7 +102,6 @@ exports.editUser = async (req, res) => {
     const item = await updateUser(req.body);
     res.status(200).json(item);
   } catch (err) {
-    console.log(err);
     handleError(err);
   }
 };

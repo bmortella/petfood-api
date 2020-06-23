@@ -4,6 +4,7 @@ const chai = require('chai');
 const chaiHttp = require('chai-http');
 const faker = require('faker');
 const server = require('../app');
+const { fake } = require('faker');
 
 // eslint-disable-next-line no-unused-vars
 const should = chai.should();
@@ -79,6 +80,7 @@ describe('## AUTH', () => {
   describe('/PATCH user', () => {
     it('deve editar pefil', (done) => {
       createdClient.nome = faker.name.findName();
+      createdClient.password = faker.internet.password();
       chai
         .request(server)
         .patch('/auth/user')
@@ -174,6 +176,16 @@ describe('## STORE', () => {
         .set('Authorization', `Bearer ${token}`)
         .end((err, res) => {
           res.should.have.status(200);
+          done();
+        });
+    });
+    it('nao deve pegar dados loja (loja nao existe)', (done) => {
+      chai
+        .request(server)
+        .get(`/store/1eefd1111111ec111cc8f63b`)
+        .set('Authorization', `Bearer ${token}`)
+        .end((err, res) => {
+          res.should.have.status(404);
           done();
         });
     });
@@ -273,18 +285,18 @@ describe('## STORE', () => {
           done();
         });
     });
-    // it('nao deve editar produto', (done) => {
-    //   delete produto.nome;
-    //   chai
-    //     .request(server)
-    //     .patch('/store/product')
-    //     .set('Authorization', `Bearer ${token}`)
-    //     .send(produto)
-    //     .end((err, res) => {
-    //       res.should.have.status(500);
-    //       done();
-    //     })
-    // })
+    it('nao deve editar produto', (done) => {
+      delete produto.nomeProduto;
+      chai
+        .request(server)
+        .patch('/store/product')
+        .set('Authorization', `Bearer ${token}`)
+        .send(produto)
+        .end((err, res) => {
+          res.should.have.status(422);
+          done();
+        })
+    })
   });
   describe('/GET product', () => {
     it('deve pegar produto', (done) => {
