@@ -1,4 +1,5 @@
 const mongoose = require('mongoose');
+const Product = require('./product');
 
 const OrderSchema = new mongoose.Schema({
   clienteId: {
@@ -7,6 +8,10 @@ const OrderSchema = new mongoose.Schema({
   },
   lojaId: {
     type: mongoose.Types.ObjectId,
+    required: true,
+  },
+  nomeLoja: {
+    type: String,
     required: true,
   },
   produtoId: {

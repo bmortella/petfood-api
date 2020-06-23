@@ -1,6 +1,15 @@
 const { matchedData } = require('express-validator');
 const Order = require('../models/order');
+const Store = require('../models/store');
+const Product = require('../models/product');
 const { handleError, buildErrObject } = require('./utils');
+
+const fetchStore = async (id) => new Promise((resolve, reject) => {
+ Store.findById(id, (err, item) => {
+   if (err) return reject(buildErrObject(500, err));
+   return resolve(item);
+ })
+});
 
 const addOrder = async (customerId, data) => new Promise((resolve, reject) => {
   data.clienteId = customerId;
@@ -34,7 +43,9 @@ const getOrders = async (filters) => new Promise((resolve, reject) => {
 
 exports.newOrder = async (req, res) => {
   try {
-    const data = matchedData(req);
+    let data = matchedData(req);
+    const store = await fetchStore(data.lojaId)
+    data.nomeLoja = store.nomeLoja;
     const order = await addOrder(req.user._id, data);
     res.status(201).json(order);
   } catch (err) {
