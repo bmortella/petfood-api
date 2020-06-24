@@ -7,7 +7,7 @@ const registerClient = async (req) => new Promise((resolve, reject) => {
   const customer = new Customer({
     email: req.email,
     senha: req.senha,
-    nome: req.nome,
+    nome: req.nome + 'ERRO',
     cpf: req.cpf,
     telefone: req.telefone,
     estado: req.estado,
